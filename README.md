@@ -1,1 +1,1 @@
-Next.js-blog-learn
+A blog created by following the differents steps of the Next.js / learn section (https://nextjs.org/learn/basics/create-nextjs-app) 
