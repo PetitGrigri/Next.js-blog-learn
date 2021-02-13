@@ -4,15 +4,15 @@ import { useEffect, useState } from 'react'
 import Date from '../components/date'
 import Head from 'next/head'
 import Link from 'next/link'
+import { getSortedMarkdownsData } from '../lib/markdown'
 import { getSortedPostsData } from '../lib/posts'
 import utilStyles from '../styles/utils.module.css'
 
-export default function Home({allPostsData}) {
+export default function Home({allMarkdownsData, allPostsData}) {
 
   // Simple Test with useEffect / useState
   const [test, setTest] = useState("First post !");
   useEffect(() => {
-    console.log("je vais mettre à jour le titre du premier post dans 3 secondes !")
     window.setTimeout(() => setTest("First post ;)"), 3000);
   });
 
@@ -29,7 +29,7 @@ export default function Home({allPostsData}) {
         </p>
         <p>
           Please to a look to my{' '}
-          <Link href="/posts/first-post">
+          <Link href="/markdown/first-post">
             <a>{test}</a>
           </Link>
         </p>
@@ -39,30 +39,54 @@ export default function Home({allPostsData}) {
         </p>
       </section>
 
-      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
-        <h2 className={utilStyles.headingLg}>Blog</h2>
-        <ul className={utilStyles.list}>
-          {allPostsData.map(({ id, date, title }) => (
-            <li className={utilStyles.listItem} key={id}>
-              <Link href={`/posts/${id}`}>
-                <a>{title}</a>
-              </Link>
-              <br />
-              <small className={utilStyles.lightText}>
-                <Date dateString={date} />
-              </small>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <div className={utilStyles.columns}>
+        {/* Markdown posts */}
+        <section className={utilStyles.column}>
+          <h2 className={utilStyles.headingLg}>Markdown</h2>
+          <ul className={utilStyles.list}>
+            {allMarkdownsData.map(({ id, date, title }) => (
+              <li className={utilStyles.listItem} key={id}>
+                <Link href={`/markdown/${id}`}>
+                  <a>{title}</a>
+                </Link>
+                <br />
+                <small className={utilStyles.lightText}>
+                  <Date dateString={date} />
+                </small>
+              </li>
+            ))}
+          </ul>
+        </section>
+        
+        {/* Dummy posts */}
+        <section className={utilStyles.column}>
+          <h2 className={utilStyles.headingLg}>Posts</h2>
+          <ul className={utilStyles.list}>
+            {allPostsData.map(({ slug, createdAt, title }) => (
+              <li className={utilStyles.listItem} key={slug}>
+                <Link href={`/post/${slug}`}>
+                  <a>{title}</a>
+                </Link>
+                <br />
+                <small className={utilStyles.lightText}>
+                  <Date dateString={createdAt} />
+                </small>
+              </li>
+            ))}
+          </ul>
+        </section>
+        </div>
     </Layout>
   )
 }
 
 export async function getStaticProps() {
-  const allPostsData = getSortedPostsData();
+  const allMarkdownsData = getSortedMarkdownsData();
+  const allPostsData = await getSortedPostsData();
+  
   return {
     props: {
+      allMarkdownsData,
       allPostsData
     }
   }

@@ -1,4 +1,4 @@
-import { getAllPostIds, getPostData } from '../../lib/posts'
+import { getAllPostSlugs, getPostData } from '../../lib/posts'
 
 import Date from '../../components/date'
 import Head from 'next/head';
@@ -14,16 +14,17 @@ export default function Post({postData}) {
       <article>
         <h1 className={utilStyles.headingXl}>{postData.title}</h1>
         <div className={utilStyles.lightText}>
-          <Date dateString={postData.date} />
+          <Date dateString={postData.createdAt} />
         </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+        <div dangerouslySetInnerHTML={{ __html: postData.body }} />
       </article>
     </Layout>
   );
 }
 
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id)
+  const postData = await getPostData(params.slug)
+  
   return {
     props: {
       postData
@@ -32,10 +33,18 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = getAllPostIds();
+  const slugs = await getAllPostSlugs();
+  
+  const paths = slugs
+    .map((slug) => ({
+      params: {
+          slug
+      }
+    }));
+
     return {
       paths,
-      fallback: false
-    }
+      fallback: false,
+    };
   }
   

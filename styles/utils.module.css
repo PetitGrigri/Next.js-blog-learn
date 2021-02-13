@@ -33,10 +33,6 @@
     color: inherit;
   }
   
-  .padding1px {
-    padding-top: 1px;
-  }
-  
   .list {
     list-style: none;
     padding: 0;
@@ -51,3 +47,11 @@
     color: #666;
   }
   
+  .columns {
+    display: flex;
+    flex-direction: row;
+  }
+  .column {
+    padding: 1rem;
+    flex: 1
+  }
