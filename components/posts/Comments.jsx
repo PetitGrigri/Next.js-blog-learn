@@ -1,5 +1,5 @@
 import Comment from "./Comment.jsx";
-import { articleConsummerHook } from "../store/provider/ArticleProvider.js";
+import { articleConsummerHook } from "../../store/provider/ArticleProvider.js";
 
 export default function Comments () {
   const [{comments}] = articleConsummerHook();

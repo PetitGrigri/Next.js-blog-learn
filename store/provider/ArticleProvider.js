@@ -1,9 +1,9 @@
-import { AUTHOR_ERROR, AUTHOR_LOADED, COMMENTS_ERROR, COMMENTS_LOADED } from "../constant/article.js";
+import { authorError, authorSuccess, commentsError, commentsSuccess } from "../action/article.js";
 import { createContext, useContext, useEffect, useReducer } from "react";
 import {initialState, reducer} from "../reducer/article.js";
 
-import { getComments } from '../../../lib/comment';
-import { getUser } from '../../../lib/user';
+import { getComments } from '../../lib/comment';
+import { getUser } from '../../lib/user';
 
 const ArticleContext = createContext();
 ArticleContext.displayName = 'Article'
@@ -12,7 +12,7 @@ export const articleConsummerHook = () => useContext(ArticleContext);
 
 
 /**
- * This commponent with fetch the comments and the author related to a user
+ * This component will fetch the comments and the author related to a user
  * 
  * @param {{context: Array}} props 
  */
@@ -23,23 +23,13 @@ const ArticleListener = (props) => {
     if (articleId === null) return;
 
     getComments(articleId)
-      .then( (comments) => dispatch({
-        type: COMMENTS_LOADED,
-        payload: { comments }
-      }))
-      .catch((error) => dispatch({
-        type: COMMENTS_ERROR,
-      }))
+      .then( (comments) => dispatch(commentsSuccess(comments)))
+      .catch((error) => dispatch(commentsError()))
     ;
 
     getUser(userId)
-      .then( (user) => dispatch({
-        type: AUTHOR_LOADED,
-        payload: { author: user }
-      }))
-      .catch((error) => dispatch({
-        type: AUTHOR_ERROR,
-      }))
+      .then( (user) => dispatch(authorSuccess(user)))
+      .catch((error) => dispatch(authorError()))
     ;
     
   }, [articleId]);

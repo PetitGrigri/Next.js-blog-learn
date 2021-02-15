@@ -1,7 +1,7 @@
 import { getAllPostSlugs, getPostData } from '../../lib/posts'
 
 import Article from '../../components/posts/Article';
-import { ArticleProvider } from '../../components/store/provider/ArticleProvider';
+import { ArticleProvider } from '../../store/provider/ArticleProvider';
 
 /**
  *

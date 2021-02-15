@@ -1,4 +1,4 @@
-import { articleConsummerHook } from "../store/provider/ArticleProvider"
+import { articleConsummerHook } from "../../store/provider/ArticleProvider"
 import styles from "./Author.module.sass";
 
 export default function Author() {

@@ -3,9 +3,9 @@ import Comments from '../../components/posts/Comments';
 import Date from '../../components/date'
 import Head from 'next/head';
 import Layout from '../../components/layout'
-import { NEW_ARTICLE } from '../store/constant/article';
+import { NEW_ARTICLE } from '../../store/constant/article';
 import PropTypes from 'prop-types'
-import { articleConsummerHook } from '../store/provider/ArticleProvider';
+import { articleConsummerHook } from '../../store/provider/ArticleProvider';
 import { useEffect } from 'react';
 import utilStyles from '../../styles/utils.module.css'
 
