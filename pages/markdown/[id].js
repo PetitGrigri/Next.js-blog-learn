@@ -1,11 +1,11 @@
-import { getAllPostIds, getPostData } from '../../lib/posts'
+import { getAllMarkdownIds, getMarkdownData } from '../../lib/markdown'
 
 import Date from '../../components/date'
 import Head from 'next/head';
 import Layout from '../../components/layout'
 import utilStyles from '../../styles/utils.module.css'
 
-export default function Post({postData}) {
+export default function Markdown({postData}) {
   return (
     <Layout>
       <Head>
@@ -23,7 +23,7 @@ export default function Post({postData}) {
 }
 
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id)
+  const postData = await getMarkdownData(params.id)
   return {
     props: {
       postData
@@ -32,7 +32,7 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-    const paths = getAllPostIds();
+    const paths = getAllMarkdownIds();
     return {
       paths,
       fallback: false

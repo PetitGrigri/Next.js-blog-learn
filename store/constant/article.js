@@ -1,0 +1,6 @@
+
+export const NEW_ARTICLE = "NEW_ARTICLE";
+export const COMMENTS_LOADED = "COMMENTS_LOADED";
+export const COMMENTS_ERROR= "COMMENTS_ERROR";
+export const AUTHOR_LOADED = "AUTHOR_LOADED";
+export const AUTHOR_ERROR= "AUTHOR_ERROR";
