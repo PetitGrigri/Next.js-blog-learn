@@ -11,7 +11,7 @@ export const commentsError = () => ({
     type: COMMENTS_ERROR,
 });
 
-export const authorSuccess = () => ({
+export const authorSuccess = (user) => ({
     type: AUTHOR_LOADED,
     payload: { author: user }
 });
