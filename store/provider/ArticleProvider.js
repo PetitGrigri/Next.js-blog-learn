@@ -2,48 +2,27 @@ import { authorError, authorSuccess, commentsError, commentsSuccess } from "../a
 import { createContext, useContext, useEffect, useReducer } from "react";
 import {initialState, reducer} from "../reducer/article.js";
 
-import { getComments } from '../../lib/comment';
-import { getUser } from '../../lib/user';
+import { effects } from "../effects/article.js";
 
 const ArticleContext = createContext();
 ArticleContext.displayName = 'Article'
 
-export const articleConsummerHook = () => useContext(ArticleContext);
 
-
-/**
- * This component will fetch the comments and the author related to a user
- * 
- * @param {{context: Array}} props 
- */
-const ArticleListener = (props) => {
-  const [{articleId, userId}, dispatch] = props.context;
+export const articleConsummerHook = () => {
+  const [state, dispatch] = useContext(ArticleContext)
   
-  useEffect(() => {
-    if (articleId === null) return;
+  const dispatchWithEffect = (objectToDispatch) => {
+      dispatch(objectToDispatch);
+      effects(objectToDispatch, dispatch);
+  }
+  return [state, dispatchWithEffect];
+};
 
-    getComments(articleId)
-      .then( (comments) => dispatch(commentsSuccess(comments)))
-      .catch((error) => dispatch(commentsError()))
-    ;
-
-    getUser(userId)
-      .then( (user) => dispatch(authorSuccess(user)))
-      .catch((error) => dispatch(authorError()))
-    ;
-    
-  }, [articleId]);
-  
-  return null;
-}
 
 
 export const ArticleProvider = ({children}) => {
   return (
     <ArticleContext.Provider value={useReducer(reducer, initialState)}>
-      <ArticleContext.Consumer>
-        {context => <ArticleListener context={context} />}
-      </ArticleContext.Consumer>
       { children }
     </ArticleContext.Provider>
   );
