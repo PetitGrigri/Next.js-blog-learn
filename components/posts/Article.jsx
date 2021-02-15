@@ -33,7 +33,7 @@ const Article = ({title, createdAt, body, id, userId}) => {
   return (
     <Layout>
       <Head>
-        <title>{title}</title>
+        <title key="title">{title}</title>
       </Head>
 
       {/** The article */}
