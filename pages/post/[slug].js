@@ -1,24 +1,27 @@
 import { getAllPostSlugs, getPostData } from '../../lib/posts'
 
-import Date from '../../components/date'
-import Head from 'next/head';
-import Layout from '../../components/layout'
-import utilStyles from '../../styles/utils.module.css'
+import Article from '../../components/posts/Article';
+import { ArticleProvider } from '../../components/store/provider/ArticleProvider';
 
+/**
+ *
+ *
+ * @export
+ * @param {*} {postData}
+ * @return {*} 
+ */
 export default function Post({postData}) {
+
   return (
-    <Layout>
-      <Head>
-        <title>{postData.title}</title>
-      </Head>
-      <article>
-        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
-        <div className={utilStyles.lightText}>
-          <Date dateString={postData.createdAt} />
-        </div>
-        <div dangerouslySetInnerHTML={{ __html: postData.body }} />
-      </article>
-    </Layout>
+    <ArticleProvider>
+      <Article 
+        id={postData.id}
+        userId={postData.userId}
+        body={postData.body}
+        title={postData.title}
+        createdAt={postData.createdAt}
+      />
+    </ArticleProvider>
   );
 }
 
